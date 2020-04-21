@@ -1,12 +1,11 @@
 package org.mvrck.training.actor;
 
 import akka.actor.typed.*;
-import akka.actor.typed.javadsl.*;
-import java.util.*;
-
 import akka.persistence.typed.*;
 import akka.persistence.typed.javadsl.*;
 import org.mvrck.training.actor.OrderActor.*;
+
+import java.util.*;
 
 public class OrderActor extends EventSourcedBehavior<Command, Event, State> {
   /********************************************************************************
@@ -38,7 +37,7 @@ public class OrderActor extends EventSourcedBehavior<Command, Event, State> {
       .onCommand(CreateOrder.class, command -> Effect().persist(new OrderCreated(command.ticketId, command.userId, command.quantity)));
 
     builder
-      .forStateType(Filled.class)
+      .forStateType(Created.class)
       .onCommand(GetOrder.class, (state, command) -> Effect().none().thenReply(command.sender, (s) -> new GetOrderResponse(state.ticketId, state.userId, state.quantity)));
 
     return builder.build();
@@ -50,7 +49,7 @@ public class OrderActor extends EventSourcedBehavior<Command, Event, State> {
 
     builder
       .forStateType(Initialized.class)
-      .onEvent(OrderCreated.class, (state, event) -> new Filled(event.ticketId, event.userId, event.quantity));
+      .onEvent(OrderCreated.class, (state, event) -> new Created(event.ticketId, event.userId, event.quantity));
 
     return builder.build();
   }
@@ -106,12 +105,12 @@ public class OrderActor extends EventSourcedBehavior<Command, Event, State> {
 
   private final class Initialized implements State {}
 
-  private final class Filled implements State {
+  private final class Created implements State {
     public int ticketId;
     public int userId;
     public int quantity;
 
-    public Filled(int ticketId, int userId, int quantity) {
+    public Created(int ticketId, int userId, int quantity) {
       this.ticketId = ticketId;
       this.userId = userId;
       this.quantity = quantity;
