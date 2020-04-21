@@ -18,8 +18,8 @@ public class GuardianActor {
       var orderParent = context.spawn(OrderParentActor.create(), "order-parent");
       var ticketStockParent = context.spawn(TicketStockParentActor.create(orderParent), "ticket-stock-parent");
 
-      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(1, 100));
-      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(2, 200));
+      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(1, 5000));
+      ticketStockParent.tell(new TicketStockParentActor.CreateTicketStock(2, 2000));
 
       /*********************************************************************************
        * Set up HTTP server
