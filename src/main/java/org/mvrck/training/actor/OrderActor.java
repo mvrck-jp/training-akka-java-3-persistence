@@ -34,11 +34,18 @@ public class OrderActor extends EventSourcedBehavior<Command, Event, State> {
 
     builder
       .forStateType(Initialized.class)
-      .onCommand(CreateOrder.class, command -> Effect().persist(new OrderCreated(command.ticketId, command.userId, command.quantity)));
+      .onCommand(CreateOrder.class,
+        command -> Effect()
+          .persist(new OrderCreated(command.ticketId, command.userId, command.quantity))
+          .thenReply(command.sender, state -> new GetOrderResponse(command.ticketId, command.userId, command.quantity)));
 
     builder
       .forStateType(Created.class)
-      .onCommand(GetOrder.class, (state, command) -> Effect().none().thenReply(command.sender, (s) -> new GetOrderResponse(state.ticketId, state.userId, state.quantity)));
+      .onCommand(GetOrder.class,
+        (state, command) -> Effect()
+          .none()
+          .thenReply(command.sender, (s) -> new GetOrderResponse(state.ticketId, state.userId, state.quantity))
+      );
 
     return builder.build();
   }
@@ -63,11 +70,13 @@ public class OrderActor extends EventSourcedBehavior<Command, Event, State> {
     public final int ticketId;
     public final int userId;
     public final int quantity;
+    public final ActorRef<Response> sender;
 
-    public CreateOrder(int ticketId, int userId, int quantity) {
+    public CreateOrder(int ticketId, int userId, int quantity, ActorRef<Response> sender) {
       this.ticketId = ticketId;
       this.userId = userId;
       this.quantity = quantity;
+      this.sender = sender;
     }
   }
 
@@ -141,5 +150,4 @@ public class OrderActor extends EventSourcedBehavior<Command, Event, State> {
       this.quantity = quantity;
     }
   }
-
 }

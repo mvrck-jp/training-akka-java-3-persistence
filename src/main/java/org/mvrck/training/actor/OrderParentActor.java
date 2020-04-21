@@ -27,9 +27,7 @@ public class OrderParentActor {
     var child = context.spawn(OrderActor.create(orderId.toString()), orderId.toString());
 
     // upon restart, this CreateOrder command is ignored by the child, as the child state will be Available
-    child.tell(new OrderActor.CreateOrder(command.ticketId, command.userId, command.quantity));
-
-    child.tell(new OrderActor.GetOrder(orderId, command.sender));
+    child.tell(new OrderActor.CreateOrder(command.ticketId, command.userId, command.quantity, command.sender));
     return state.put(command.ticketId, child);
   }
 
