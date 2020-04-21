@@ -39,6 +39,8 @@ MacBook前提。
   - `git clone git@github.com:mvrck-inc/training-akka-java-3-persistence.git`
 - データベースのセットアップをしてください
   - `CREATE TABLE`を走らせてください(リンク)
+  https://github.com/akka/akka-persistence-jdbc/blob/v3.5.3/src/test/resources/mysql-application.conf
+  https://github.com/akka/akka-persistence-jdbc/blob/v3.5.3/src/test/resources/schema/mysql/mysql-schema.sql
 - アプリケーションを走らせてください
   - `mvn compile`
   - `mvn exec:java -Dexec.mainClass=com.mycompany.app.Main`
