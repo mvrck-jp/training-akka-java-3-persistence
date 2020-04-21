@@ -37,27 +37,28 @@ MacBook前提。
 
 - このレポジトリをgit cloneしてください
   - `git clone git@github.com:mvrck-inc/training-akka-java-3-persistence.git`
-- データベースのセットアップをしてください
-  https://github.com/akka/akka-persistence-jdbc/blob/v3.5.3/src/test/resources/mysql-application.conf
-  https://github.com/akka/akka-persistence-jdbc/blob/v3.5.3/src/test/resources/schema/mysql/mysql-schema.sql
+- データベースのセットアップをしてください ([setup.sql](./dbsetup/setup.sql)) - 参考: akka-persistence-jdbcプラグインのデフォルト・テーブル構成([リンク](https://github.com/akka/akka-persistence-jdbc/blob/v3.5.3/src/test/resources/schema/mysql/mysql-schema.sql))
 - アプリケーションを走らせてください
   - `mvn compile`
-  - `mvn exec:java -Dexec.mainClass=com.mycompany.app.Main`
+  - `mvn exec:java -Dexec.mainClass=org.mvrck.training.app.Main`
 - curlでデータを挿入してください
   - `curl -X POST -H "Content-Type: application/json" -d "{\"ticket_id\": 1, \"user_id\": 2, \"quantity\": 1}"  http://localhost:8080/orders`
   - クライアント側ログからレスポンスを確認してください
-  - データベースでjournalテーブルを確認してください
+  - データベースでjournalテーブルを確認してください ([select.sql](./dbsetup/select.sql)) 
 - wrkでベンチマークを走らせてください
   - `wrk -t2 -c4 -d5s -s wrk-scripts/order.lua http://localhost:8080/orders`
     - `-t2`: 2 threads
     - `-c4`: 4 http connections
     - `-d5`: 5 seconds of test duration
     - `wrk-scripts/order.lua` ([リンク](./wrk-scrips/order.lua))
-    - クライアント側とサーバー側の実行結果を確認してください
-    - データベースでjournalテーブルを確認してください
+    - クライアント側の実行結果を確認してください
+    - データベースでjournalテーブルを確認してください ([select.sql](./dbsetup/select.sql))
 - アプリケーション再起動後にcurlでGETしてアクターの内部状態が復元されていることを確認してください
-- akka-persistenceのセットアップを[確認してください](../)
-- jacksonによるSerializationをセットアップを[確認してください](../)
+  - `curl http://localhost:8080/orders/00fcca39-e162-4c3b-a171-613028772a24` //orders以下のUUID部分はデータベースのテーブルから探して適当なものに置き換えてください
+- akka-persistenceのセットアップを確認してください
+  - [application.conf](./src/main/resources/application.conf) - 参考 akka-persistence-jdbcプラグインのデフォルト設定([リンク](https://github.com/akka/akka-persistence-jdbc/blob/v3.5.3/src/test/resources/mysql-application.conf))
+  - [pom.xml](./pom.xml)
+  - jacksonによるSerializationをセットアップを確認してください
 - TicketStockActorとOrderActorの整合性を保つシーケンス図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuU9IyWW92L1m3F1KKj2rKmZ9JCvEBGakoK_ETamkoI-oKYWeoazEBIvMo2zAIItYGfS7wV47oK1L9nUb9fQaGXGZ6ssZYwAiABMu83-lE9MBoo4rBmNe3W00) - ([参考リンク: PlantUML](https://plantuml.com/sequence-diagram))
 - TicketStockActor
   - 状態遷移図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuUAArefLqDMrKqWiIypCIKpAIRLII2vAJIn9rT3aGX8hB4tCAyaigLImKp10YAFhLCXCKyXBBSUdEh-qn3yjk2G_ETiAGxKjK3MIFAe4bqDgNWhGoG00) - ([参考リンク: PlantUML](https://plantuml.com/state-diagram))
@@ -89,14 +90,13 @@ MacBook前提。
 - 不正データのハンドリング、業務例外を考えてください
   - 不正なオーダーを弾いてください(年齢制限、不正なチケット種別の組み合わせ、などなど) 
   - 購入履歴と照らし合わせた不正な購入を防いでください
-- asyncテストが必要となるテストケース例を考えてください
+- asyncテストが必要となるテストケース例を考えてINSTRUCTIONください
 - コンサート以外に、スポーツや映画、入場券のみイベントを実現するテーブルを考えてください
 
 ## 説明
 
 - [課題背景](./BACKGROUND.md)
-- [課題提出方法](./SUBMIT.md)
-- [課題手順の詳細](./DETAILES.md)
+- [課題手順の詳細](./.md)
 
 ## 参考文献・資料
 
