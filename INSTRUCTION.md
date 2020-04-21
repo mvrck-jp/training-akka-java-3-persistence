@@ -295,19 +295,19 @@ note bottom of Created: <= Response to sender
 @enduml
 ```
 
-- 状態遷移表を確認してください
-
-|             | CreateOrder | GetOrder |
-|-------------|-------------|----------|
-| Initialized | handle      | -        |
-| Created     | -           | handle   |
-
 - ソースコードのコマンドを確認してください([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java#L64L91))
   - CreateOrder
   - GetOrder
 
 - ソースコードのイベントを確認してください([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java#L93L108))
   - OrderCreated
+
+- 状態遷移表を確認してください
+
+|             | CreateOrder | GetOrder |
+|-------------|-------------|----------|
+| Initialized | handle      | -        |
+| Created     | -           | handle   |
 
 - ソースコードのコマンドハンドラとイベントハンドラを見て、詳細な状態遷移図との対応を確認してください([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java))
 

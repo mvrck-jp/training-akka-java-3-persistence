@@ -54,30 +54,29 @@ MacBook前提。
     - クライアント側の実行結果を確認してください
     - データベースでjournalテーブルを確認してください ([select.sql](./dbsetup/select.sql))
 - アプリケーション再起動後にcurlでGETしてアクターの内部状態が復元されていることを確認してください
-  - `curl http://localhost:8080/orders/00fcca39-e162-4c3b-a171-613028772a24` //orders以下のUUID部分はデータベースのテーブルから探して適当なものに置き換えてください
+  - `curl http://localhost:8080/orders/00fcca39-e162-4c3b-a171-613028772a24` 
+  - orders以下のUUID部分はデータベースのテーブルから探して適当なものに置き換えてください
 - akka-persistenceのセットアップを確認してください
   - [application.conf](./src/main/resources/application.conf) - 参考 akka-persistence-jdbcプラグインのデフォルト設定([リンク](https://github.com/akka/akka-persistence-jdbc/blob/v3.5.3/src/test/resources/mysql-application.conf))
   - [pom.xml](./pom.xml)
   - jacksonによるSerializationをセットアップを確認してください
-- TicketStockActorとOrderActorの整合性を保つシーケンス図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuU9IyWW92L1m3F1KKj2rKmZ9JCvEBGakoK_ETamkoI-oKYWeoazEBIvMo2zAIItYGfS7wV47oK1L9nUb9fQaGXGZ6ssZYwAiABMu83-lE9MBoo4rBmNe3W00) - ([参考リンク: PlantUML](https://plantuml.com/sequence-diagram))
+- TicketStockActorとOrderActorの整合性を保つシーケンス図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuLBo20a9K70Cy5HIqBLJ2CbCpauj2Ix9JyvsJ2x9Bx9I22ZAJqujBlOlIaajuaANngubCqsXi3GnhoIpf5B1Ji40gowmUL3rpaMfYIMfO15avzZeegWAIYqkoCyhJkLoICrB0RaS0000) - ([参考リンク: PlantUML](https://plantuml.com/sequence-diagram))
 - TicketStockActor
   - 状態遷移図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuUAArefLqDMrKqWiIypCIKpAIRLII2vAJIn9rT3aGX8hB4tCAyaigLImKp10YAFhLCXCKyXBBSUdEh-qn3yjk2G_ETiAGxKjK3MIFAe4bqDgNWhGoG00) - ([参考リンク: PlantUML](https://plantuml.com/state-diagram))
-  - ソースコードの状態の定義をみて状態遷移図との対応を確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - 詳細な状態遷移図を確認してください([リンク1](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI2nBpCn9JCf9jL88ACfFJYqkzYzAIItYWekZgrB8J5F8IorNA2nDp2l9BAbKi5CmG5ETNrhYdnPSaf-SZKMvBL2vGsfU2j0H0000)) ([リンク2](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJo2yjyKyBBibFphPI22ZAJqujBlOlIaajua98WDK1rLiff1OLvHSf5AKM5-Jd5QToEQJcfG3D0W00))([リンク3](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI4hDI2pBp2-oKd1FBV4lIaajue89WUM1wgmKWbAB2_BpYbEv75BpKe2w0G00))- 状態遷移「表」を確認してください
+  - ソースコードのStateの定義をみて状態遷移図との対応を確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L155L180))
+  - 詳細な状態遷移図を確認してください
+  - ソースコードのコマンドを確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L85L112))
+  - ソースコードのイベントを確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L114L153))
   - 状態遷移表を確認してください
-  - ソースコードのコマンドを確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - ソースコードのイベントを確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - ソースコードのコマンドハンドラとイベントハンドラを見て、詳細な状態遷移図との対応を確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-    - 詳細な状態遷移図再掲
+  - ソースコードのコマンドハンドラとイベントハンドラを見て、詳細な状態遷移図との対応を確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java)) 
 - OrderActor
-  - 状態遷移図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuUAArefLqDMrKqWiIypCIKpAIRLII2vAJIn9rT3aGX8hB4tCAyaigLImKp10YAFhLCXCKyXBBSUdEh-qn3yjk2G_ETiAGxKjK3MIFAe4bqDgNWhGoG00) - ([参考リンク: PlantUML](https://plantuml.com/state-diagram))
-  - ソースコードの状態の定義をみて状態遷移図との対応を確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - 詳細な状態遷移図を確認してください([リンク1](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI2nBpCn9JCf9jL88ACfFJYqkzYzAIItYWekZgrB8J5F8IorNA2nDp2l9BAbKi5CmG5ETNrhYdnPSaf-SZKMvBL2vGsfU2j0H0000)) ([リンク2](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJo2yjyKyBBibFphPI22ZAJqujBlOlIaajua98WDK1rLiff1OLvHSf5AKM5-Jd5QToEQJcfG3D0W00))([リンク3](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuOhMYbNGrRLJI4hDI2pBp2-oKd1FBV4lIaajue89WUM1wgmKWbAB2_BpYbEv75BpKe2w0G00))- 状態遷移「表」を確認してください
+  - 状態遷移図を[確認してください](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuSf9JIjHACbNACfCpoXHICaiIaqkoSpFuuhMYbNGrRLJyCpBBCbCpCciIasnKaWkIaqiITNGv48I1Qjo1akaSA6eJiqjAAaCBW5AS3cavgK0RGC0) - ([参考リンク: PlantUML](https://plantuml.com/state-diagram))
+  - ソースコードの状態の定義をみて状態遷移図との対応を確認してください([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java#L110L127))
+  - 詳細な状態遷移図を確認してください
+  - ソースコードのコマンドを確認してください([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java#L64L91))
+  - ソースコードのイベントを確認してください([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java#L93L108))
   - 状態遷移表を確認してください
-  - ソースコードのコマンドを確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - ソースコードのイベントを確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-  - ソースコードのコマンドハンドラとイベントハンドラを見て、詳細な状態遷移図との対応を確認してください([リンク](./src/main/java/org/mvrck/training/actor/TicketStockActor.java#L47L64))
-    - 詳細な状態遷移図再掲
+  - ソースコードのコマンドハンドラとイベントハンドラを見て、詳細な状態遷移図との対応を確認してください([リンク](./src/main/java/org/mvrck/training/actor/OrderActor.java))
 - ガーディアンアクター以下親子関係のから樹形図を確認してください ([リンク](http://www.plantuml.com/plantuml/uml/SoWkIImgAStDuUBAJyfAJIvHS2zDB4h9JCo3yKCoaxDJIu9ByfEp0nABKlDAO1B-HIcfHL0XJBM6MCICKBGQel1GvOnHU2PSN31NAUJhwc8w2KKQnM4OIj4DC2Iin8WBoKI43OROXN6eDiOkRCBba9gN0Wn_0000))
 
 ### 発展的内容:
