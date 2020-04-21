@@ -12,7 +12,7 @@ public class TicketStockActor extends EventSourcedBehavior<Command, Event, State
    *******************************************************************************/
   // public: the only Behavior factory method accessed from outside the actor
   public static Behavior<Command> create(int ticketId){
-    return new TicketStockActor(PersistenceId.ofUniqueId(Integer.toString(ticketId)));
+    return new TicketStockActor(PersistenceId.of("TicketStockActor", Integer.toString(ticketId)));
   }
 
   private TicketStockActor(PersistenceId persistenceId){

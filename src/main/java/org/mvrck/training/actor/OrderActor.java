@@ -13,7 +13,7 @@ public class OrderActor extends EventSourcedBehavior<Command, Event, State> {
    *******************************************************************************/
   // public: the only Behavior factory method accessed from outside the actor
   public static Behavior<Command> create(String orderId){
-    return new OrderActor(PersistenceId.ofUniqueId(orderId));
+    return new OrderActor(PersistenceId.of("OrderActor", orderId));
   }
 
   private OrderActor(PersistenceId persistenceId){
