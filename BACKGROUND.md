@@ -1,7 +1,9 @@
 伝統的な3層アーキテクチャでは、多くの場合アプリケーションの状態をデータベース層に退避させるということは、第一回のトレーニングでも紹介しました。
 データベース層はデータの最新の状態を保存し、アプリケーション層はそれをクエリによって取り出すことで自身をステートレスに保ち、状態管理の煩雑さを避けます。
 
-- TODO: 3層アーキテクチャの画像
+<p align="center">
+  <img width=640 src="https://user-images.githubusercontent.com/7414320/79640175-17735500-81cb-11ea-94b3-0141d47be6ae.png">
+</p>
 
 このようなアーキテクチャを採用した場合、あるデータベース内での変更履歴を追跡するにはどうすればよいでしょう？
 これは特殊な要求ではなく、ビジネスを支える多くのアプリケーションで要求される機能です。
@@ -12,15 +14,18 @@ eコマースサイトで、システムの不具合でキャンセルされた�
 そんなときに顧客の注文の最新状態だけでなく、予約、決済完了、配送中、配送完了と、どの時点で誰が状態を更新したかという情報は、原因追跡に不可欠です。
 データがビジネス上重要であればあるほど、往々にしてその変更履歴もまた重要で価値をもつものです。金融機関の取引履歴、GPSによる経路履歴、履歴が重要な例は枚挙に暇がありません。
 
-- TODO: 文字だけ画像…金融機関の取引履歴、文書管理アプリケーションの文書変更履歴
-- TODO: あるいは文書の変更履歴や金融機関の取引履歴を思わせる画像とか
+<p align="center">
+  <img width=640 src="https://user-images.githubusercontent.com/7414320/80294967-63189680-87a9-11ea-8c4f-1025b4c77662.png">
+</p>
 
 リレーショナル・データベースで履歴を管理しようとする場合、[トリガーは代表的な手法](https://www.postgresql.org/docs/12/plpgsql-trigger.html#PLPGSQL-TRIGGER-AUDIT-EXAMPLE)です。
 しかし、履歴テーブルは最新の状態を保存した別テーブルと同時に更新され、テーブル間はACIDでいう不可分性と一貫性を保つためトランザクションを利用する必要があります。
 また履歴テーブルと最新の状態テーブルという組み合わせだけでなく、トレーニング第一回で見たように、注文テーブルと在庫テーブルのように異なる用途のテーブルの組み合わせでも不可分性と一貫性を保つためには、
 更に多くのテーブル間にまたがってトランザクションを利用せねばならず、更新処理は複雑化しアプリケーションのパフォーマンスが落ちる一因にもなります。
 
-- TODO: 不可分性と一貫性を保つの図 with 履歴
+<p align="center">
+  <img width=640 src="https://user-images.githubusercontent.com/7414320/80295126-0e761b00-87ab-11ea-8e55-968af1006482.png">
+</p>
 
 トリガー以外にも、MySQLの場合にはバイナリ形式で[テーブルの変更履歴](https://dev.mysql.com/doc/refman/5.6/ja/binary-log.html)を自動保存する機能がありますが、
 履歴の解析をする際にはバイナリ形式のログファイルをダウンロードして解析用のコマンドを走らせる必要があります。
@@ -29,8 +34,6 @@ eコマースサイトで、システムの不具合でキャンセルされた�
 データベースにとってだけでなく、アプリケーション全体で履歴は重要です。よりリアルタイムで、よりアプリケーションが複雑化し状態の更新頻度が高くなる現代において、その重要性は増しています。
 履歴の重要性を踏まえて、この第3回のトレーニングではAkkaアプリケーションにデータベースなどの永続化層を導入する設計パターンとして、イベント・ソーシングを紹介します。
 イベント・ソーシングは履歴をデータ管理の中心に据え、かつ高い更新パフォーマンスを実現しうる設計パターンの一つです。
-
-- TODO: イベント・ソーシングの図（データベース、イベント・ソーシングではより一般的には永続化層とも呼ばれる）
 
 第2回のトレーニングですでにアクターを用いたアーキテクチャを紹介しましたが、データベースによる永続化機能はありませんでした。
 もちろん、アクターを用いたアプリケーションでも変わらず永続化は重要です。
@@ -82,10 +85,10 @@ eコマースサイトで、システムの不具合でキャンセルされた�
 Akkaが提供する実装を使って、トレーニング課題の中でこのパターンのメリットを実感していきましょう。
 
 参考文献: 
-Chatwork
-Martin Fowlerのトランザクションスクリプト
-加藤純さんのスライド
-MSDN - Reference 3: Introducing Event Sourcing　https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591559(v=pandp.10)?redirectedfrom=MSDN
-Events as first class citizen https://hackernoon.com/events-as-first-class-citizens-8633e8479493
-[データベースアプリケーション開発を炎上させる負のスパイラル - 漢のコンピュータ道](http://nippondanji.blogspot.com/2013/11/blog-post.html)
+- Chatwork
+- Martin Fowlerのトランザクションスクリプト
+- 加藤純さんのスライド
+- MSDN - Reference 3: Introducing Event Sourcing　https://docs.microsoft.com/en-us/previous-versions/msp-n-p/jj591559(v=pandp.10)?redirectedfrom=MSDN
+- Events as first class citizen https://hackernoon.com/events-as-first-class-citizens-8633e8479493
+- [データベースアプリケーション開発を炎上させる負のスパイラル - 漢のコンピュータ道](http://nippondanji.blogspot.com/2013/11/blog-post.html)
 https://www.postgresql.org/docs/12/plpgsql-trigger.html#PLPGSQL-TRIGGER-AUDIT-EXAMPLE
