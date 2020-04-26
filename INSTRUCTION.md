@@ -21,7 +21,7 @@ MacBook前提。
 ---
 - データベースのセットアップをしてください ([setup.sql](./dbsetup/setup.sql)) - 参考: akka-persistence-jdbcプラグインのデフォルト・テーブル構成([リンク](https://github.com/akka/akka-persistence-jdbc/blob/v3.5.3/src/test/resources/schema/mysql/mysql-schema.sql))
 
-`SELECT * FROM journal;`で以下のようなテーブルが出来ています。
+`SELECT * FROM journal;`で以下のようなテーブルが出来ているのが確認できます。
 
 | ordering | persistence_id | sequence_number | deleted | tags | message |
 |----------|----------------|-----------------|---------|------|---------|
@@ -88,11 +88,11 @@ Press RETURN to stop...
     - データベースでjournalテーブルを確認してください ([select.sql](./dbsetup/select.sql))
 
 <p align="center">
-  <img width=450 src="https://user-images.githubusercontent.com/7414320/79639615-db8ac080-81c7-11ea-9ff8-123cba6c218c.jpg">
+  <img width=640 src="https://user-images.githubusercontent.com/7414320/80275884-56e7f700-871f-11ea-9aa5-caa84abe7ec7.png">
 </p>
 
 私のローカル環境で試したところ結果はこの様になりました。[第1回のトレーニング](https://github.com/mvrck-inc/training-akka-java-1-preparation/blob/master/INSTRUCTION.md)と比べても性能が向上していません…。
-10倍くらいに性能上がるんじゃないかと期待していたから結構焦った。やはりちゃんと計測してみるのは大事ですねー。
+10倍くらいに性能上がるんじゃないかと期待していたから結構おどろきました。やはりちゃんと計測してみるのは大事ですね。
 
 ```
 Running 5s test @ http://localhost:8080/orders
